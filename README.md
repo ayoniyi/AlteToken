@@ -1,105 +1,117 @@
-# AlteToken Deployment Guide
+# Alté Token (ALT)
 
-This guide shows how to deploy the AlteToken smart contract to the Sepolia testnet and retrieve its contract address.
+![Alté Token](https://ibb.co/pjg9TkMM)
 
-## Prerequisites
+## Overview
 
-- Node.js and npm installed
-- Metamask or another Ethereum wallet with Sepolia ETH
-- An API key from Infura, Alchemy, or Ankr
-- An Etherscan API key (for contract verification)
+Alté Token (ALT) is an ERC20 token built on Ethereum with enhanced security features, designed specifically for the Alté ecosystem. This token implements multiple security measures including anti-bot protection, blacklisting capabilities, and pause functionality to ensure a safe trading environment.
 
-## Setup Instructions
+## Key Features
 
-### 1. Install Dependencies
+- **Enhanced Security**: Includes protection against reentrancy attacks, blacklisting capabilities, and pausable functionality
+- **Transparent Distribution**: Clear allocation of tokens (60% ICO, 20% staking rewards, 15% team, 5% reserve)
+- **Token Recovery**: Built-in functionality to recover ERC20 tokens accidentally sent to the contract
+- **Ownership Management**: Secure two-step ownership transfer process
+- **Metadata Support**: Includes tokenURI for metadata (logo, description, etc.)
+
+## Token Information
+
+- **Name**: Alté
+- **Symbol**: ALT
+- **Decimals**: 18
+- **Total Supply**: 100,000,000 tokens (100 million)
+
+## Token Distribution
+
+The token supply is distributed as follows:
+
+- **ICO Portion**: 60,000,000 tokens (60% of total supply)
+- **Staking Rewards**: 20,000,000 tokens (20% of total supply)
+- **Team Allocation**: 15,000,000 tokens (15% of total supply)
+- **Reserve Fund**: 5,000,000 tokens (5% of total supply)
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js and npm
+- Hardhat for development and deployment
+- An Ethereum wallet with ETH for gas
+
+### Installation
+
+1. Clone the repository:
+
+```bash
+git clone https://github.com/yourusername/alteToken.git
+cd alteToken
+```
+
+2. Install dependencies:
 
 ```bash
 npm install
 ```
 
-### 2. Configure Environment Variables
-
-1. Copy the .env.example file to .env:
-
-```bash
-cp .env.example .env
-```
-
-2. Edit the .env file with your actual values:
-
-```
-SEPOLIA_RPC_URL=https://sepolia.infura.io/v3/YOUR_INFURA_KEY
-PRIVATE_KEY=your_wallet_private_key_here_without_0x_prefix
-ETHERSCAN_API_KEY=your_etherscan_api_key_here
-TEAM_WALLET_ADDRESS=your_team_wallet_address
-RESERVE_WALLET_ADDRESS=your_reserve_wallet_address
-```
-
-Important notes:
-
-- The `PRIVATE_KEY` should be from a wallet with Sepolia ETH
-- You can get Sepolia ETH from a faucet like https://sepoliafaucet.com/
-- Never share your .env file or private key
-- For testing, use test wallets, not your main wallets
-
-### 3. Update Deployment Parameters (if needed)
-
-If you want to modify the deployment parameters, edit `scripts/deploy.js`:
-
-- Update the `tokenURI` to point to your token metadata
-- You can also modify any other constructor parameters as needed
-
-### 4. Compile the Contract
+3. Compile the contracts:
 
 ```bash
 npx hardhat compile
 ```
 
-### 5. Deploy to Sepolia Testnet
+## Usage
+
+### Running Tests
 
 ```bash
-npx hardhat run scripts/deploy.js --network sepolia
+npx hardhat test
 ```
 
-Upon successful deployment, you'll see output similar to:
+### Local Development
 
-```
-Deploying AlteToken with the following parameters:
-Team Wallet: 0x...
-Reserve Wallet: 0x...
-Token URI: https://alte.token/metadata
-AlteToken deployed to: 0x...
-Waiting for confirmations...
-Deployment confirmed in block: 12345678
-Gas used: 1234567
-
-Verify with:
-npx hardhat verify --network sepolia 0x... "0x..." "0x..." "https://alte.token/metadata"
-```
-
-The contract address will be displayed after "AlteToken deployed to:".
-
-### 6. Verify Contract on Etherscan (Optional)
-
-Run the verify command provided in the deployment output:
+You can run a local Hardhat node for development:
 
 ```bash
-npx hardhat verify --network sepolia CONTRACT_ADDRESS TEAM_WALLET RESERVE_WALLET TOKEN_URI
+npx hardhat node
 ```
 
-### 7. Check Your Token on Etherscan
+### Deployment
 
-Visit https://sepolia.etherscan.io/address/YOUR_CONTRACT_ADDRESS to view your deployed token.
+For detailed deployment instructions, see [deploy.md](./deploy.md).
 
-## Troubleshooting
+## Technical Details
 
-- **Transaction Underpriced**: Increase the `gasMultiplier` in hardhat.config.js
-- **Not enough ETH**: Get more Sepolia ETH from a faucet
-- **Nonce too low**: Reset your account in MetaMask or use the correct nonce in your transaction
+### Smart Contract Architecture
 
-## Additional Notes
+The AlteToken contract inherits from:
 
-- The owner of the token will receive 80% of the total supply (60% for ICO, 20% for staking rewards)
-- The team wallet will receive 15% of the total supply
-- The reserve wallet will receive 5% of the total supply
-- Only the owner can execute privileged functions like updating blacklists, pausing the token, etc.
+- ERC20 (from OpenZeppelin via library.sol)
+- ReentrancyGuard for protection against reentrancy attacks
+
+### Security Features
+
+- **Blacklisting**: The contract owner can blacklist addresses to prevent them from sending or receiving tokens
+- **Pause Functionality**: The contract can be paused in emergencies to prevent all transfers
+- **Anti-Bot Measures**: Includes protection against automated trading bots
+- **Recovery Function**: Allows recovery of ERC20 tokens accidentally sent to the contract
+
+### Owner Privileges
+
+The contract owner can:
+
+- Add or remove addresses from the blacklist
+- Pause or unpause token transfers
+- Recover accidentally sent ERC20 tokens
+- Transfer ownership via a secure two-step process
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## Contact
+
+For questions or support, please contact the team at [contact@alte.token](mailto:contact@alte.token).
