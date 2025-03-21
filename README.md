@@ -1,6 +1,6 @@
 # Alté Token (ALT)
 
-![Alté Token](https://ibb.co/pjg9TkMM)
+![Alté Token](assets/altx.png)
 
 ## Overview
 
