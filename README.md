@@ -1,6 +1,6 @@
 # Alté Token (ALT)
 
-![Alté Token](assets/altx.png)
+
 
 ## Overview
 
